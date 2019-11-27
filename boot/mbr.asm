@@ -1,6 +1,6 @@
-%include "boot.inc"
+%include "./include/boot.inc"
 
-SECTION mbr vstart = 0x7c00
+SECTION mbr vstart=0x7c00
         mov ax,cs
         mov ss,ax
         mov sp,0x7c00
@@ -9,7 +9,7 @@ SECTION mbr vstart = 0x7c00
         mov ebx,loader_base_addr
         call read_hard_disk
 
-        mov eax,loader_base_addr
+        mov eax,[loader_base_addr]
         xor edx,edx
         mov ecx,512
         div ecx
@@ -20,7 +20,7 @@ SECTION mbr vstart = 0x7c00
 
     @1:
         or eax,eax
-        jz loader_base_addr
+        jz loader_base_addr + 0x04
         
         mov ecx,eax
         mov eax,loader_start_sector
@@ -29,6 +29,8 @@ SECTION mbr vstart = 0x7c00
         inc eax
         call read_hard_disk
         loop @2
+        
+        jz loader_base_addr + 0x04
 
 read_hard_disk:	
         push eax
@@ -55,9 +57,12 @@ read_hard_disk:
         out dx,al
         
         shr eax,cl
-        and al,0x0f
         or al,0xe0
         inc dx
+        out dx,al
+        
+        inc dx
+        mov al,0x20
         out dx,al
         
     .not_ready:
