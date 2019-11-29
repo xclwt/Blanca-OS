@@ -2,6 +2,7 @@
 
 SECTION mbr vstart=0x7c00
         mov ax,cs
+        mov ds,ax
         mov ss,ax
         mov sp,0x7c00
 
@@ -88,14 +89,3 @@ read_hard_disk:
         
 times 510 - ($ - $$) db 0
 db 0x55, 0xaa
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
