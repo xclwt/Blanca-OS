@@ -35,3 +35,12 @@
 	RPL_1 equ 01b
 	RPL_2 equ 10b
 	RPL_3 equ 11b
+	
+	;page_ingo
+    PAGE_DIR_POS equ 0x100000
+    PAGE_P equ 1b
+    PAGE_RW_R equ 00b
+    PAGE_RW_W equ 10b
+    PAGE_US_S equ 000b
+    PAGE_US_U equ 100b
+    

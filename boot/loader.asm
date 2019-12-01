@@ -17,17 +17,11 @@ SECTION loader vstart=loader_base_addr
         
         total_memory dd 0
         
-        msg_boot:
-            db "MBR loaded...", 13, 10, 0
-        
-        msg_err:
-            db "Fail to load ...", 13, 10, 0
-        
         msg_load_succ:
             db "Succeed to load loader...", 13, 10, 0
         
         msg_gdt:
-            db "GDT loader...", 13, 10, 0
+            db "GDT loaded...", 13, 10, 0
         
         msg_a20:
             db "A20 line on...", 13, 10, 0
@@ -35,19 +29,16 @@ SECTION loader vstart=loader_base_addr
         msg_get_mem_fail:
             db "Fail to get memory...", 13, 10, 0
             
-        msg_p_mode_on:
-            db "Protected mode on...", 13, 10, 0
-            
 print_msg:
-loop:
+    .loop:
         lodsb
         or al,al
-        jz done
+        jz .done
         mov ah,0x0e
         mov bx,15
         int 0x10
-        jmp loop
-done:
+        jmp .loop
+    .done:
         ret
             
 start:
@@ -86,11 +77,11 @@ start:
         mov ax,0
         mov es,ax
         
-@0xe820:
+    .0xe820:
         mov eax,0xe820
         mov ecx,20
         int 0x15
-        jc @0xe801
+        jc .0xe801
         mov eax,[es:ards_buf]
         add eax,[es:ards_buf + 8]
         mov ecx,[total_memory]
@@ -98,14 +89,14 @@ start:
         cmova ecx,eax
         mov [total_memory],ecx
         cmp ebx,0
-        jnz @0xe820
+        jnz .0xe820
         
-        jmp memory_ready
+        jmp .memory_ready
         
-@0xe801:
+    .0xe801:
         mov ax,0xe801
         int 0x15
-        jc @0x88
+        jc .0x88
         mov cx,0x400
         mul cx
         shl edx,16
@@ -119,12 +110,12 @@ start:
         mul ecx
         add edx,eax
         mov [total_memory],edx
-        jmp memory_ready
+        jmp .memory_ready
 
-@0x88:
+    .0x88:
         mov ah,0x88
         int 0x15
-        jc error
+        jc .error
         mov cx,0x400
         mul cx
         shl edx,16
@@ -133,7 +124,7 @@ start:
         add edx,0x100000
         mov [total_memory],edx
         
-memory_ready:
+    .memory_ready:
         ;加载gdt
         lgdt [gdt_ptr]
         mov si,msg_gdt
@@ -148,8 +139,6 @@ memory_ready:
         mov si,msg_a20
         call print_msg
         
-        
-        
         ;进入保护模式
         mov eax,cr0
         or eax,0x01
@@ -157,7 +146,7 @@ memory_ready:
         
         jmp dword CODE_SELECTOR:p_mode
         
-error:
+    .error:
         mov si,msg_get_mem_fail
         call print_msg
         hlt
@@ -165,5 +154,49 @@ error:
 [bits 32]
 p_mode:
         mov eax,0x0008
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+create_page:
+        mov ecx,4096
+        mov esi,0
+        
+    .clear_pde:
+        mov byte [PAGE_DIR_POS + esi],0
+        inc esi
+        loop .clear_pde
+        
+    .create_pde:
+        mov eax,PAGE_DIR_POS
+        add eax,0x1000
+        mov ebx,eax
+        
+        or eax,PAGE_P | PAGE_RW_W | PAGE_US_U
+        mov [PAGE_DIR_POS + 0x0],eax
+        mov [PAGE_DIR_POS + 0xc00],eax
+        
+        sub eax,0x1000
+        mov [PAGE_DIR_POS + 4092],eax
+        
+        mov ecx,256
+        mov esi,0
+        mov edx,PAGE_P | PAGE_RW_W | PAGE_US_U
+        
+    .create_pte:
+        mov [ebx + 4 * esi],edx
+        add edx,4096
+        inc esi
+        loop .create_pte
+        
+        
         
 loader_end:
