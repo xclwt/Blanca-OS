@@ -31,7 +31,7 @@ SECTION mbr vstart=0x7c00
         call read_hard_disk
         loop @2
         
-        jz loader_base_addr + 0x04
+        jmp loader_base_addr + 0x04
 
 read_hard_disk:	
         push eax
