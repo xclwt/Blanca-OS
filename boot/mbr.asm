@@ -6,33 +6,40 @@ SECTION mbr vstart=0x7c00
         mov ss,ax
         mov sp,0x7c00
 
+        ;读取一个扇区
         mov eax,loader_start_sector
         mov ebx,loader_base_addr
         call read_hard_disk
 
+        ;利用长度计算总共需要读取的扇区数
         mov eax,[loader_base_addr]
         xor edx,edx
         mov ecx,512
         div ecx
         
         or edx,edx
-        jnz @1
+        jnz .1
         dec eax
-
-    @1:
+    
+    
+    .1:
         or eax,eax
         jz loader_base_addr + 0x04
         
         mov ecx,eax
         mov eax,loader_start_sector
         
-    @2: 
+    .2: 
         inc eax
         call read_hard_disk
-        loop @2
+        loop .2
         
         jmp loader_base_addr + 0x04
 
+;读取磁盘的一个扇区
+;eax = 扇区号
+;ds:ecx = 加载的内存地址
+;返回ebx = ebx + 512 
 read_hard_disk:	
         push eax
         push ecx

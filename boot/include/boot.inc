@@ -4,7 +4,7 @@
 
 	;kernel
 	kernel_base_addr equ 0x40000
-	kernel_base_sector equ 0x9
+	kernel_start_sector equ 0x9
 	
 	;gdt_info 
 	;0000_0000_0000_0000_0000_0000b
