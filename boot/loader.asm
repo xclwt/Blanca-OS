@@ -76,7 +76,8 @@ start:
         mov di,ards_buf
         mov ax,0
         mov es,ax
-        
+     
+    ;int0x15子功能0xe820 
     .0xe820:
         mov eax,0xe820
         mov ecx,20
@@ -92,7 +93,8 @@ start:
         jnz .0xe820
         
         jmp .memory_ready
-        
+    
+    ;int0x15子功能0xe801     
     .0xe801:
         mov ax,0xe801
         int 0x15
@@ -112,6 +114,7 @@ start:
         mov [total_memory],edx
         jmp .memory_ready
 
+    ;int0x15子功能0x88
     .0x88:
         mov ah,0x88
         int 0x15
@@ -153,19 +156,47 @@ start:
         
 [bits 32]
 p_mode:
-        mov eax,0x0008
+        mov ax,CODE_SELECTOR
+        mov ds,ax
+        mov es,ax
+        mov ss,ax
         
+        mov eax,kernel_start_sector
+        mov ebx,kernel_base_addr
+        call read_hard_disk
         
+        ;利用长度计算总共需要读取的扇区数
+        mov eax,[kernel_base_addr]
+        xor edx,edx
+        mov ecx,512
+        div ecx
         
+        or edx,edx
+        jnz .1
+        dec eax
+    
+    .1:
+        or eax,eax
+        jz .continue
         
+        mov ecx,eax
+        mov eax,loader_start_sector
         
+    .2: 
+        inc eax
+        call read_hard_disk
+        loop .2
         
+    .continue:
+        call create_page
         
-        
-        
-        
-        
-        
+  
+  
+  
+  
+  
+  
+
 create_page:
         mov ecx,4096
         mov esi,0
@@ -197,6 +228,70 @@ create_page:
         inc esi
         loop .create_pte
         
+        add eax,0x2000
+        mov ebx,PAGE_DIR_POS
+        mov ecx,254
+        mov esi,759
         
+    .create_rest_kernel_pde:
+        mov [ebx + 4 * esi],eax
+        add eax,0x1000
+        inc esi
+        loop .create_rest_kernel_pde
+        
+        ret
+
+read_hard_disk:	
+        push eax
+        push ecx
+        push edx
+        
+        push eax
+        
+        mov dx,0x1f2
+        mov al,1
+        out dx,al
+        
+        inc dx
+        pop eax
+        out dx,al
+        
+        mov cl,8
+        shr eax,cl
+        inc dx
+        out dx,al
+        
+        shr eax,cl
+        inc dx
+        out dx,al
+        
+        shr eax,cl
+        or al,0xe0
+        inc dx
+        out dx,al
+        
+        inc dx
+        mov al,0x20
+        out dx,al
+        
+    .not_ready:
+        in al,dx
+        and al,0x88
+        cmp al,0x08
+        jnz .not_ready
+        
+        mov ecx,256
+        mov dx,0x1f0
+    .read:
+        in ax,dx
+        mov [ebx],ax
+        add ebx,2
+        loop .read
+        
+        pop edx
+        pop ecx
+        pop eax
+        
+        ret
         
 loader_end:
