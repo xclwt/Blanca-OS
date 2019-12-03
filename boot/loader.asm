@@ -29,7 +29,7 @@ SECTION loader vstart=loader_base_addr
         msg_get_mem_fail:
             db "Fail to get memory...", 13, 10, 0
             
-print_msg:
+print_msg_16:
     .loop:
         lodsb
         or al,al
@@ -43,7 +43,7 @@ print_msg:
             
 start:
         mov si,msg_load_succ
-        call print_msg
+        call print_msg_16
 
         ;计算段地址：偏移地址
         mov eax,[cs:gdt_ptr + 0x02]
@@ -131,7 +131,7 @@ start:
         ;加载gdt
         lgdt [gdt_ptr]
         mov si,msg_gdt
-        call print_msg
+        call print_msg_16
         
         cli
         
@@ -140,7 +140,7 @@ start:
         or al,0010b
         out 0x92,al
         mov si,msg_a20
-        call print_msg
+        call print_msg_16
         
         ;进入保护模式
         mov eax,cr0
@@ -151,15 +151,20 @@ start:
         
     .error:
         mov si,msg_get_mem_fail
-        call print_msg
+        call print_msg_16
         hlt
         
 [bits 32]
 p_mode:
-        mov ax,CODE_SELECTOR
+        mov ax,DATA_SELECTOR
         mov ds,ax
         mov es,ax
         mov ss,ax
+        mov ax,VIDEO_SELECTOR
+        mov gs,ax
+        
+        mov esi,msg_p_mode_on
+        call print_msg_32
         
         mov eax,kernel_start_sector
         mov ebx,kernel_base_addr
@@ -190,12 +195,50 @@ p_mode:
     .continue:
         call create_page
         
+        sgdt [gdt_ptr]
+        mov ebx,[gdt_ptr + 2]
+        add dword [gdt_ptr + 2],0xc0000000
+        add dword [ebx + 0x1c],0xc0000000
+        add esp,0xc0000000
+        
+        mov eax,PAGE_DIR_POS
+        mov cr3,eax
+        
+        mov eax,cr0
+        or eax,0x80000000
+        mov cr0,eax
+        
+        lgdt [gdt_ptr]
+        
+        mov ax,VIDEO_SELECTOR
+        mov gs,ax
+        
+        ;mov byte[gs:160], 'V'
+        
+        mov esi,msg_page_on
+        call print_msg_32
+        jmp $
   
   
   
   
   
-  
+print_msg_32:
+        add edi,160
+        push edi
+        cld
+        
+    .loop:
+        lodsb
+        cmp al,0
+        je .out
+        mov [gs:edi],ax
+        add edi,2
+        jmp .loop
+        
+    .out:
+        pop edi
+        ret
 
 create_page:
         mov ecx,4096
@@ -231,7 +274,7 @@ create_page:
         add eax,0x2000
         mov ebx,PAGE_DIR_POS
         mov ecx,254
-        mov esi,759
+        mov esi,769
         
     .create_rest_kernel_pde:
         mov [ebx + 4 * esi],eax
@@ -293,5 +336,12 @@ read_hard_disk:
         pop eax
         
         ret
+        
+msg_p_mode_on:
+    db "Protect mode on...", 0
+
+msg_page_on:
+    db "Pages on...", 0
+
         
 loader_end:
