@@ -162,16 +162,20 @@ p_mode:
         mov ss,ax
         mov ax,VIDEO_SELECTOR
         mov gs,ax
-        
-        mov esi,msg_p_mode_on
-        call print_msg_32
-        
+
         mov eax,kernel_start_sector
         mov ebx,kernel_base_addr
         call read_hard_disk
         
         ;利用长度计算总共需要读取的扇区数
-        mov eax,[kernel_base_addr]
+        xor eax,eax
+        mov ax,[kernel_base_addr + 0x28]
+        mov cx,[kernel_base_addr + 0x30]
+        mul cx
+        shl edx,16
+        or eax,edx
+        add eax,mov eax,[kernel_base_addr + 0x20]
+        sub eax,1
         xor edx,edx
         mov ecx,512
         div ecx
@@ -185,7 +189,7 @@ p_mode:
         jz .continue
         
         mov ecx,eax
-        mov eax,loader_start_sector
+        mov eax,kernel_start_sector
         
     .2: 
         inc eax
@@ -210,13 +214,7 @@ p_mode:
         
         lgdt [gdt_ptr]
         
-        mov ax,VIDEO_SELECTOR
-        mov gs,ax
         
-        ;mov byte[gs:160], 'V'
-        
-        mov esi,msg_page_on
-        call print_msg_32
         jmp $
   
   
@@ -261,7 +259,7 @@ create_page:
         sub eax,0x1000
         mov [PAGE_DIR_POS + 4092],eax
         
-        mov ecx,256
+        mov ecx,1024
         mov esi,0
         mov edx,PAGE_P | PAGE_RW_W | PAGE_US_U
         
