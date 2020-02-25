@@ -2,7 +2,7 @@
 
 
 SECTION loader vstart=loader_base_addr
-        loader_length: dd loader_end
+        loader_length: dd loader_end - loader_base_addr - 1
         
         jmp start
         
@@ -165,17 +165,16 @@ p_mode:
 
         mov eax,kernel_start_sector
         mov ebx,kernel_base_addr
-        call read_hard_disk
+        call read_hard_disk_m32
         
         ;利用长度计算总共需要读取的扇区数
         xor eax,eax
-        mov ax,[kernel_base_addr + 0x28]
+        mov ax,[kernel_base_addr + 0x2e]
         mov cx,[kernel_base_addr + 0x30]
         mul cx
         shl edx,16
         or eax,edx
-        add eax,mov eax,[kernel_base_addr + 0x20]
-        sub eax,1
+        add eax,[kernel_base_addr + 0x20]
         xor edx,edx
         mov ecx,512
         div ecx
@@ -193,7 +192,7 @@ p_mode:
         
     .2: 
         inc eax
-        call read_hard_disk
+        call read_hard_disk_m32
         loop .2
         
     .continue:
@@ -282,7 +281,7 @@ create_page:
         
         ret
 
-read_hard_disk:	
+read_hard_disk_m32:	
         push eax
         push ecx
         push edx
