@@ -3,7 +3,8 @@
 	loader_start_sector equ 0x1
 
 	;kernel
-	kernel_base_addr equ 0xc0001500
+	kernel_elf_addr equ 0x8200
+	kernel_image_addr equ 0xc0001500
 	kernel_start_sector equ 0x9
 	
 	;gdt_info 
