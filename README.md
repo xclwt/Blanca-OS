@@ -7,3 +7,4 @@ Blanca-OS is an unix-like toy os kernel
 * [xv6 中文文档](https://legacy.gitbook.com/book/th0ar/xv6-chinese/details)
 * [《x86汇编语言：从实模式到保护模式》](https://book.douban.com/subject/20492528/)
 * [《操作系统真象还原》](https://book.douban.com/subject/26745156/)
+* [OSDev](https://wiki.osdev.org/)

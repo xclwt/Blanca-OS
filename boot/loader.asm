@@ -11,7 +11,7 @@ SECTION loader vstart=loader_base_addr
         VIDEO_SELECTOR equ (0x03 << 3) + TI_GDT + RPL_0
     
         gdt_ptr dw 0
-                dd 0x7e00
+                dd 0x1100
                 
         ards_buf times 20 db 0
         
@@ -162,11 +162,13 @@ p_mode:
         mov ss,ax
         mov ax,VIDEO_SELECTOR
         mov gs,ax
-
+        
+        ;读取elf文件的前512字节
         mov eax,kernel_start_sector
         mov ebx,kernel_elf_addr
         call read_hard_disk_m32
         
+        ;利用elf头信息计算elf文件大小
         ;利用长度计算总共需要读取的扇区数
         xor eax,eax
         mov ax,[kernel_elf_addr + 0x2e]
@@ -213,12 +215,69 @@ p_mode:
         
         lgdt [gdt_ptr]
         
+        call init_kernel
+        mov esp,0x1100
         
-        jmp $
+        jmp kernel_image_addr
   
   
+;ebx = 程序头表地址
+;cx = 程序头表中程序头的数量
+;dx = 程序头的尺寸
+init_kernel:
+        xor eax,eax
+        xor ebx,ebx
+        xor ecx,ecx
+        xor edx,edx
+        
+        mov ebx,[kernel_elf_addr + 0x1c] ;获取程序头表在程序中的偏移量
+        add ebx,kernel_elf_addr ;计算程序头表在内存中的地址
+        
+        mov cx,[kernel_elf_addr + 0x2c] ;获取程序头表中程序头的数量
+        
+        mov dx,[kernel_elf_addr + 0x2a] ;获取程序头尺寸
+    
+    .each_segment:
+        cmp dword[ebx + 0],0 ;若p_type为0,则当前程序头未使用
+        je .PTNULL
+        
+        push dword [ebx + 0x10] ;mem_cpy的参数三：size
+        
+        mov eax,[ebx + 0x4]
+        add eax,kernel_elf_addr
+        push eax ;mem_cpy的参数二：源地址
+        
+        push dword [ebx + 0x8] ;mem_cpy的参数一：目的地址
+        
+        call mem_cpy
+        add esp,0xc
+        
+    .PTNULL:
+        add ebx,edx
+        
+        loop .each_segment
+        
+        ret
   
-  
+;[ebp + 0x8] = 目的地址
+;[ebp + 0xc] = 源地址
+;[ebp + 0x10] = size
+mem_cpy:
+        cld
+        push ebp
+        mov ebp,esp
+        push ecx
+        
+        mov edi,[ebp + 0x8]
+        mov esi,[ebp + 0xc]
+        mov ecx,[ebp + 0x10]
+        
+        rep movsb
+        
+        pop ecx
+        pop ebp
+        
+        ret
   
 print_msg_32:
         add edi,160
@@ -281,6 +340,10 @@ create_page:
         
         ret
 
+;读取磁盘的一个扇区
+;eax = 扇区号
+;ds:ecx = 加载的内存地址
+;返回ebx = ebx + 512 
 read_hard_disk_m32:	
         push eax
         push ecx
