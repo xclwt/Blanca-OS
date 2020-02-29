@@ -1,0 +1,1 @@
+#include <../inc/type.h>
