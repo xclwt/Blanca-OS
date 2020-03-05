@@ -1,7 +1,7 @@
 #ifndef _INC_STRING_H
 #define _INC_STRING_H
 
-#include <inc/types.h>
+#include <types.h>
 
 int	strlen(const char *s);
 char *	strcpy(char *dst, const char *src);
@@ -16,4 +16,4 @@ void *	memmove(void *dst, const void *src, size_t len);
 void *	memset(void *dst, uint8_t c, size_t len);
 
 
-#endif /* not JOS_INC_STRING_H */
+#endif
