@@ -218,8 +218,8 @@ p_mode:
         call init_kernel
         mov esp,0x1100
         
-        jmp kernel_image_addr
-  
+        jmp dword[kernel_elf_addr + 0x18]
+        
   
 ;ebx = 程序头表地址
 ;cx = 程序头表中程序头的数量

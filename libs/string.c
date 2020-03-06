@@ -7,6 +7,8 @@ int	strlen(const char *str){
     while(*str++ != '\0'){
         len++;
     }
+    
+    return len;
 }
 
 char *	strcpy(char *dst, const char *src){
