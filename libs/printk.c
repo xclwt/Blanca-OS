@@ -10,7 +10,6 @@ int atoi(const char *s){
     
     while(is_digit(*s)){
         i = i * 10 + *(s++) - '0';
-        printf("%d\n",i);
     }
     
     return i;
@@ -99,7 +98,7 @@ void printk(const char * fmt, ...){
     va_list args;
     
     va_start(args, fmt);
-    vsprint(args);
+    vsprint(buf, fmt, args);
     va_end(args);
     
     vga_write(buf);

@@ -1,6 +1,7 @@
 #include <string.h>
+//#include <types.h>
 
-int	strlen(const char *s){
+int	strlen(const char *str){
     int len = 0;
     
     while(*str++ != '\0'){
@@ -47,7 +48,7 @@ int	strcmp(const char *str1, const char *str2){
         return 1;
     }
     
-    return (int)(*str1 - *str2)
+    return (int)(*str1 - *str2);
 }
 
 int	strncmp(const char *str1, const char *str2, size_t size){
@@ -62,7 +63,7 @@ int	strncmp(const char *str1, const char *str2, size_t size){
         return 1;
     }
     
-    return (int)(*str1 - *str2)
+    return (int)(*str1 - *str2);
 }
 
 char *strstr(const char *haystack, const char *needle){

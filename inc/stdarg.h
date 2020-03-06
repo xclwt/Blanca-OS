@@ -1,7 +1,7 @@
 #ifndef _INC_VSPRINT_H
 #define _INC_VSPRINT_H
 
-typedef char* va_list
+typedef char* va_list;
 
 #define _times_of_int(TYPE) ((sizeof(TYPE) + sizeof(int) - 1) / sizeof(int)) * sizeof(int)
 

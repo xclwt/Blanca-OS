@@ -53,7 +53,7 @@ void vga_putchar_color(char ch, uint8_t back_color, uint8_t fore_color){
         cursor.x = (cursor.x + 1) % 80;
     }
     
-    scroll();
+    vga_scroll();
     move_cursor();
 }       
 

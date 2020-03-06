@@ -20,15 +20,15 @@
 #define COL_L_BROWN 14
 #define COL_L_WHITE 15
 
-typedef struct position{
+typedef struct{
     uint32_t x;
     uint32_t y;
 } position;
 
-typedef struct vga_char{
+typedef struct{
     char ch;
     uint8_t color;
-}vga_char
+}vga_char;
 
 /*移动光标*/
 void move_cursor();

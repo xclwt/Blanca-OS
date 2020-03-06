@@ -1,4 +1,4 @@
-%include "./inc/boot.inc"
+%include "boot.inc"
 
 
 SECTION loader vstart=loader_base_addr
