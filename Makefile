@@ -12,7 +12,7 @@ ASM_FLAGS = -I boot/inc
 C_FLAGS = -c  -O0 -m32 -g -nostdinc -fno-builtin -fno-stack-protector -I inc 
 LD_FLAGS =  -Ttext 0xc0001500 -e main -m elf_i386
 
-all : $(S_OBJ) $(C_OBJ) link update_image clean objdump bochs gdb
+all : $(S_OBJ) $(C_OBJ) link update_image clean objdump bochs
 
 %.o:%.c
 	$(CC) $(C_FLAGS) $< -o $@
