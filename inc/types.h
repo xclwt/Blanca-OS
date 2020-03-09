@@ -16,5 +16,6 @@ typedef unsigned int uint32_t;
 
 typedef int8_t bool;
 typedef uint32_t size_t;
+typedef uint32_t uintptr_t;
 
 #endif

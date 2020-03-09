@@ -9,10 +9,11 @@ CC = gcc
 LD = ld
 ASM = nasm
 ASM_FLAGS = -I boot/inc
-C_FLAGS = -c  -O0 -m32 -g -nostdinc -fno-builtin -fno-stack-protector -I inc 
-LD_FLAGS =  -Ttext 0xc0001500 -e main -m elf_i386
+C_FLAGS = -c -Wall -O0 -m32 -nostdinc -fno-builtin -fno-stack-protector -ggdb -gstabs+ -I inc 
+LD_FLAGS =  -T tools/ld/kernel.ld
 
-all : $(S_OBJ) $(C_OBJ) link update_image clean objdump bochs
+all1 : $(S_OBJ) $(C_OBJ) link update_image clean objdump bochs
+all2 : $(S_OBJ) $(C_OBJ) link update_image clean objdump
 
 %.o:%.c
 	$(CC) $(C_FLAGS) $< -o $@
