@@ -5,7 +5,14 @@
 
 
 typedef struct{
-    
+    const char *eip_file;		// Source code filename for EIP
+	int eip_line;			// Source code linenumber for EIP
+
+	const char *eip_func_name;	// Name of function containing EIP
+
+	int eip_func_namelen;		// Length of function name
+	uintptr_t eip_func_addr;		// Address of start of function
+	int eip_func_narg;		// Number of function arguments
 }debug_info;
 
 

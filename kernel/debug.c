@@ -7,8 +7,8 @@ extern const Stab _STAB_END_[];
 extern const char _STABSTR_BEGIN_[];
 extern const char _STABSTR_END_[];
 
-void binsearch_symbol(const Stab *stab, int *left, int *right, int type, uintptr_t addr){
-    int l = *left, r = *right, l_matched = 0, r_matched = 0
+void binsearch_symbol(const Stab *stab, uint32_t *left, uint32_t *right, uint32_t type, uintptr_t addr){
+    uint32_t l = *left, r = *right, l_matched = 0, r_matched = 0;
     
     while(l <= r){
         int mid = (l + r) / 2, mid_copy = mid;
@@ -39,13 +39,23 @@ void binsearch_symbol(const Stab *stab, int *left, int *right, int type, uintptr
     }
 }
 
-int elf_debug(uintptr_t eip, debug_info *info){
+const char* elf_debug(uintptr_t eip, debug_info *info){
     
 }
 
 /*打印调用栈信息*/
 void print_stack_trace(void){
+    uint32_t *ebp, *eip;
+    debug_info info;
     
+    asm volatile ("mov %%ebp, ebp");
+    
+    while(ebp){
+        eip = ebp + 1;
+        elf_debug((uintptr_t)eip, &info);
+        printk("[0x%x] : %s\n", info.eip_func_addr, info.eip_func_name);
+        ebp = (uint32_t*)*ebp;
+    }
 }
 
 /*内核发生致命错误后调用*/

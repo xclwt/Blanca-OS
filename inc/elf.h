@@ -1,3 +1,6 @@
+#ifndef INC_ELF_H
+#define INC_ELF_H
+
 struct elf_header{
     uint32_t e_magic; // 标识文件是否是 ELF 文件
     uint8_t e_elf[12]; // 魔数和相关信息
@@ -26,3 +29,5 @@ struct prog_header{
     uint32_t p_flags; // 段标志
     uint32_t p_align; // 段在内存中的对齐标志
 };
+
+#endif
