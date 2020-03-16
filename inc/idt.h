@@ -16,8 +16,16 @@ typedef struct{
     uint32_t base;
 }idt_ptr_t;
 
-/*声明中断处理函数 0-19 属于 CPU 的异常中断*/
+typedef struct{
+    
+}regs_t;
+
+typedef void (*intr_func_t)();
+
+typedef void (*intr_handler_t)(regs_t *);
+
 /*ISR:中断服务程序(interrupt service routine)*/
+/*0-19 属于 CPU 的异常中断*/
 void isr0(); 		// 0 #DE 除 0 异常 
 void isr1(); 		// 1 #DB 调试异常 
 void isr2(); 		// 2 NMI 
@@ -53,13 +61,19 @@ void isr29();
 void isr30();
 void isr31();
 
-// 32～255 用户自定义异常
+/*32～255 用户自定义异常*/
 void isr255();
 
-// IRQ 处理函数
+/*初始化idt*/
+void idt_init(void);
+
+/*设置中断描述符*/
+void set_intr_gate(uint8_t index, uint32_t base, uint16_t selector, uint8_t flags);
+
+/*IRQ 处理函数*/
 void irq_handler(pt_regs *regs);
 
-// 定义IRQ
+/*定义IRQ*/
 #define  IRQ0     32 	// 电脑系统计时器
 #define  IRQ1     33 	// 键盘
 #define  IRQ2     34 	// 与 IRQ9 相接，MPU-401 MD 使用
@@ -77,8 +91,7 @@ void irq_handler(pt_regs *regs);
 #define  IRQ14    46 	// IDE0 传输控制使用
 #define  IRQ15    47 	// IDE1 传输控制使用
 
-// 声明 IRQ 函数
-// IRQ:中断请求(Interrupt Request)
+/*IRQ:中断请求(Interrupt Request)*/
 void irq0();		// 电脑系统计时器
 void irq1(); 		// 键盘
 void irq2(); 		// 与 IRQ9 相接，MPU-401 MD 使用

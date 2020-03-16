@@ -6,7 +6,7 @@
 #define SLAVE_IO2 0xa1
 
 /*设置8259A芯片*/
-void init_interrupt_chip(void){
+void init_pic(void){
 
     outb(MASTER_IO1, 0x11); //初始化主片：10001
     outb(MASTER_IO2, 0x20); //主片IRQ从0x20开始
@@ -21,6 +21,3 @@ void init_interrupt_chip(void){
     outb(MASTER_IO2, 0x0); //主片允许中断
     outb(SLAVE_IO2, 0x0); //从片允许中断
 }
-
-/*重置8259A芯片*/
-//void clear_interrupt_chip(uint32_t intr_num){}
