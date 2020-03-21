@@ -17,7 +17,35 @@ typedef struct{
 }idt_ptr_t;
 
 typedef struct{
-    
+	/*段寄存器,16bit*/
+	uint32_t fs;
+	uint32_t gs;
+	uint32_t es;
+	uint32_t ds;
+	
+	/*pusha保存的寄存器*/
+	uint32_t edi;
+	uint32_t esi;
+	uint32_t ebp'
+	uint32_t esp;
+	uint32_t ebx;
+	uint32_t edx;
+	uint32_t ecx;
+	uint32_t eax;
+
+	/*中断号*/
+	uint32_t intr_num;
+
+	/*错误代码*/
+	uint32_t err_code;
+
+	uint32_t eip;
+	uint32_t cs; //16bit
+	uint32_t eflags;
+
+	/*特权级切换时才会压入ss及esp*/
+	uint32_t esp;
+	uint32_t ss; //16bit
 }regs_t;
 
 typedef void (*intr_func_t)();
@@ -71,7 +99,7 @@ void idt_init(void);
 void set_intr_gate(uint8_t index, uint32_t base, uint16_t selector, uint8_t flags);
 
 /*IRQ 处理函数*/
-void irq_handler(pt_regs *regs);
+void irq_handler(regs_t *regs);
 
 /*定义IRQ*/
 #define  IRQ0     32 	// 电脑系统计时器

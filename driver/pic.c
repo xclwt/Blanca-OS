@@ -21,3 +21,12 @@ void init_pic(void){
     outb(MASTER_IO2, 0x0); //主片允许中断
     outb(SLAVE_IO2, 0x0); //从片允许中断
 }
+
+/*重新设置8259A芯片*/
+void reset_pic(uint32_t intr_num){
+	if(intr_num >= 40){
+		outb(SLAVE_IO1, 0x20); //向从片发送EOI
+	}
+
+	outb(MASTER_IO1, 0x20); //向主片发送EOI  
+}

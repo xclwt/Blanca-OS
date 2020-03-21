@@ -40,7 +40,7 @@ void binsearch_symbol(const Stab *stab, uint32_t *left, uint32_t *right, uint32_
 }
 
 const char* elf_debug(uintptr_t eip, debug_info *info){
-    
+    return 0;
 }
 
 /*打印调用栈信息*/
@@ -48,7 +48,7 @@ void print_stack_trace(void){
     uint32_t *ebp, *eip;
     debug_info info;
     
-    asm volatile ("mov %%ebp, ebp");
+    //asm volatile ("mov %%ebp, ebp");
     
     while(ebp){
         eip = ebp + 1;

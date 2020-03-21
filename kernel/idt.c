@@ -7,7 +7,9 @@ idt_entry_t idt_entries[INTR_MAX];
 
 idt_ptr_t idt_ptr;
 
-extern load_idt((uint32_t) &idt_ptr);
+extern void load_idt(uint32_t idt_ptr);
+
+intr_handler_t intr_handler[INTR_MAX];
 
 intr_func_t intr_func[INTR_MAX] = {
     &isr0,  &isr1,  &isr2,  &isr3,  &isr4,  &isr5,  &isr6,  &isr7, 
@@ -39,4 +41,17 @@ void set_intr_gate(uint8_t index, uint32_t base, uint16_t selector, uint8_t flag
     idt_entries[index].selector = selector;
     idt_entries[index].section_0 = 0;
     idt_entries[index].flags = flags;
+}
+
+void isr_handler(regs_t *regs){
+
+}
+
+void irq_handler(regs_t *regs){
+	intr_handler_t handler = intr_handler[regs->intr_num];
+	if(handler){
+		handler(regs);
+	}
+
+	reset(regs->intr_num);
 }
