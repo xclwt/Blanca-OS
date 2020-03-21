@@ -103,3 +103,14 @@ void printk(const char * fmt, ...){
     
     vga_write(buf);
 }
+
+void printk_color(uint8_t back_color, uint8_t fore_color, const char *fmt, ...){
+	char buf[1024];
+	va_list args;
+
+	va_start(args, fmt);
+	vsprint(buf, fmt, args);
+	va_end(args);
+
+	vga_write_color(buf, back_color, fore_color);
+}
