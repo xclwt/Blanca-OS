@@ -1,9 +1,11 @@
 #include <idt.h>
 #include <pic.h>
+#include <printk.h>
 
 #define INTR_MAX 256
 
 idt_entry_t idt_entries[INTR_MAX];
+//idt_entry_t *idt_entries = (idt_entry_t *)0x10000;
 
 idt_ptr_t idt_ptr;
 
@@ -91,7 +93,7 @@ void irq_handler(regs_t *regs){
 		handler(regs);
 	}
 
-	reset(regs->intr_num);
+	reset_pic(regs->intr_num);
 }
 
 void c_isr_stub(regs_t *regs){

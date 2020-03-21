@@ -18,8 +18,10 @@ void init_pic(void){
     outb(SLAVE_IO2, 0x02); //从片输出引脚和主片IR2引脚连接
     outb(SLAVE_IO2, 0x01); //从片按x86方式工作
     
-    outb(MASTER_IO2, 0x0); //主片允许中断
-    outb(SLAVE_IO2, 0x0); //从片允许中断
+    // outb(MASTER_IO2, 0x0); //主片允许中断
+    // outb(SLAVE_IO2, 0x0); //从片允许中断
+	outb(MASTER_IO2, 0xfe);
+	outb(SLAVE_IO2, 0xff);
 }
 
 /*重新设置8259A芯片*/

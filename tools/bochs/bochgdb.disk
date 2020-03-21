@@ -14,11 +14,11 @@ megs: 32
 #vgaromimage: file=/home/work/bochs/share/bochs/VGABIOS-lgpl-latest
 #romimage: file=/usr/local//Cellar/bochs/2.6.1/share/bochs/BIOS-bochs-latest
 #romimage: file=/usr/local/Cellar/bochs/2.6.8/share/bochs/BIOS-bochs-latest
-romimage: file=/usr/share/bochs/BIOS-bochs-latest
+romimage: file=/usr/share/bochs-gdb/BIOS-bochs-latest
 #vgaromimage: file=/usr/local//Cellar/bochs/2.6.1/share/bochs/VGABIOS-lgpl-latest
 #vgaromimage: file=/usr/local//Cellar/bochs/2.6.8/share/bochs/VGABIOS-lgpl-latest
 #vgaromimage: file=/usr/share/vgabios/vgabios.bin
-vgaromimage: file=/usr/share/bochs/VGABIOS-lgpl-latest
+vgaromimage: file=/usr/share/bochs-gdb/VGABIOS-lgpl-latest
 
 # 第三步，设置Bochs所使用的磁盘，软盘的关键字为floppy。
 # 若只有一个软盘，则使用floppya即可，若有多个，则为floppya，floppyb...
@@ -37,10 +37,10 @@ mouse: enabled=0
 #keyboard_mapping: enabled=1, map=/home/work/bochs/share/bochs/keymaps/x11-pc-us.map
 #keyboard_mapping: enabled=1, map=/usr/local//Cellar/bochs/2.6.8/share/bochs/keymaps/x11-pc-us.map
 #keyboard:keymap=/usr/local//Cellar/bochs/2.6.8/share/bochs/keymaps/x11-pc-us.map
-keyboard:keymap=/usr/share/bochs/keymaps/x11-pc-us.map
+keyboard:keymap=/usr/share/bochs-gdb/keymaps/x11-pc-us.map
 
 # 硬盘设置 
 ata0: enabled=1, ioaddr1=0x1f0, ioaddr2=0x3f0, irq=14
 ata0-master: type=disk, path="/home/xclwt/文档/GitClone/Blanca-OS/tools/bochs/hd60M.img", mode=flat, cylinders=121, heads=16, spt=63
 
-#gdbstub: enabled=0, port=1234, text_base=0, data_base=0, bss_base=0
+gdbstub: enabled=1, port=1234, text_base=0, data_base=0, bss_base=0

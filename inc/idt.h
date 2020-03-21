@@ -12,12 +12,12 @@ typedef struct{
     uint8_t section_0;
     uint8_t flags;
     uint16_t h_base;
-}idt_entry_t;
+}__attribute__((packed)) idt_entry_t;
 
 typedef struct{
     uint16_t limit;
     uint32_t base;
-}idt_ptr_t;
+}__attribute__((packed)) idt_ptr_t;
 
 typedef struct{
 	/*段寄存器,16bit*/
@@ -29,7 +29,7 @@ typedef struct{
 	/*pusha保存的寄存器*/
 	uint32_t edi;
 	uint32_t esi;
-	uint32_t ebp'
+	uint32_t ebp;
 	uint32_t esp;
 	uint32_t ebx;
 	uint32_t edx;
@@ -47,7 +47,7 @@ typedef struct{
 	uint32_t eflags;
 
 	/*特权级切换时才会压入ss及esp*/
-	uint32_t esp;
+	uint32_t u_esp;
 	uint32_t ss; //16bit
 }regs_t;
 
