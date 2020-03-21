@@ -3,6 +3,9 @@
 
 #include <types.h>
 
+#define ISR_IRQ0 32
+#define ISR_UNKNOWN 255
+
 typedef struct{
     uint16_t l_base;
     uint16_t selector;
@@ -98,8 +101,17 @@ void idt_init(void);
 /*设置中断描述符*/
 void set_intr_gate(uint8_t index, uint32_t base, uint16_t selector, uint8_t flags);
 
+/*ISR 处理函数*/
+void isr_handler(regs_t *regs);
+
 /*IRQ 处理函数*/
 void irq_handler(regs_t *regs);
+
+/*对中断进行判别*/
+void c_isr_stub(regs_t *regs);
+
+/*注册中断处理函数*/
+void register_intr_handler(uint8_t intr_num, intr_handler_t handler);
 
 /*定义IRQ*/
 #define  IRQ0     32 	// 电脑系统计时器
