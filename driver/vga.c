@@ -1,6 +1,4 @@
 #include <vga.h>
-#include <string.h>
-#include <reg_io.h>
 
 /*光标*/
 position cursor;

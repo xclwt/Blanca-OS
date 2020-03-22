@@ -2,6 +2,8 @@
 #define _INC_VGA_H
 
 #include <types.h>
+#include <string.h>
+#include <asm.h>
 
 #define COL_BLACK   0
 #define COL_BLUE    1

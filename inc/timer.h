@@ -3,7 +3,7 @@
 
 #include <idt.h>
 #include <printk.h>
-#include <reg_io.h>
+#include <asm.h>
 
 #define FREQUENCY 100
 #define COUNTER_PORT 0x40

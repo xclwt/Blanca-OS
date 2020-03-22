@@ -2,13 +2,15 @@
 #include <vga.h>
 #include <timer.h>
 #include <idt.h>
+#include <debug.h>
 
 int main(){
 	init_idt();
 	vga_cls();
 	//asm volatile("int $0x3");
 	//asm volatile("int $0x4");
-    init_timer();
+    assert(1==2, "assert successfully");
+	init_timer();
 	asm volatile("sti");
 	while(1);
 	//vga_cls();

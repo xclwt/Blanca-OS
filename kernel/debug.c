@@ -1,7 +1,5 @@
-#include <stab.h>
 #include <debug.h>
-#include <printk.h>
-
+/*
 extern const Stab _STAB_BEGIN_[];
 extern const Stab _STAB_END_[];
 extern const char _STABSTR_BEGIN_[];
@@ -41,10 +39,10 @@ void binsearch_symbol(const Stab *stab, uint32_t *left, uint32_t *right, uint32_
 
 const char* elf_debug(uintptr_t eip, debug_info *info){
     return 0;
-}
+}*/
 
 /*打印调用栈信息*/
-void print_stack_trace(void){
+/*void print_stack_trace(void){
     uint32_t *ebp, *eip;
     debug_info info;
     
@@ -57,11 +55,18 @@ void print_stack_trace(void){
         ebp = (uint32_t*)*ebp;
     }
 }
-
+*/
 /*内核发生致命错误后调用*/
-void panic(const char *msg){
-    printk("!!! System Panic: %s\n !!!", msg);
-    print_stack_trace();
+void panic(const char *file, uint32_t line, const char * func, const char *msg){
+    cli();
+
+	printk_color(COL_BLACK, COL_RED, "!!! System Panic:!!!\n");
+	printk_color(COL_BLACK, COL_RED, "filename:%s\n", file);
+	printk_color(COL_BLACK, COL_RED, "line:0x%x\n", line);
+	printk_color(COL_BLACK, COL_RED, "function:%s\n", func);
+	printk_color(COL_BLACK, COL_RED, "condition:%s", msg);
+
+	//print_stack_trace();
     
     while(1);
 }

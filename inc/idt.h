@@ -93,7 +93,7 @@ void isr31();
 void isr255();
 
 /*初始化idt*/
-void idt_init(void);
+void init_idt(void);
 
 /*设置中断描述符*/
 void set_intr_gate(uint8_t index, uint32_t base, uint16_t selector, uint8_t flags);

@@ -2,7 +2,14 @@
 #define _INC_DEBUG_H
 
 #include <types.h>
+#include <stab.h>
+#include <printk.h>
+#include <asm.h>
 
+#define assert(condition, info)                           \
+		if(!(condition)){                                 \
+			panic(__FILE__, __LINE__, __func__, info);    \
+		}                                                 \
 
 typedef struct{
     const char *eip_file;		// Source code filename for EIP
@@ -26,6 +33,6 @@ const char* elf_debug(uintptr_t eip, debug_info *info);
 void print_stack_trace(void);
 
 /*内核发生致命错误后调用*/
-void panic(const char *msg);
+void panic(const char *file, uint32_t line, const char *func, const char *msg);
 
 #endif
