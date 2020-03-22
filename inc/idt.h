@@ -3,9 +3,6 @@
 
 #include <types.h>
 
-#define ISR_IRQ0 32
-#define ISR_UNKNOWN 255
-
 typedef struct{
     uint16_t l_base;
     uint16_t selector;
@@ -130,6 +127,8 @@ void register_intr_handler(uint8_t intr_num, intr_handler_t handler);
 #define  IRQ13    45 	// 协处理器使用
 #define  IRQ14    46 	// IDE0 传输控制使用
 #define  IRQ15    47 	// IDE1 传输控制使用
+
+#define ISR_UNKNOWN 255 // 未知中断
 
 /*IRQ:中断请求(Interrupt Request)*/
 void irq0();		// 电脑系统计时器

@@ -82,8 +82,8 @@ void isr_handler(regs_t *regs){
 		handler(regs);
 	}
 	else{
-		printk_color(COL_BLACK, COL_RED, "Unhandled interrupt: %d %s\n:", regs->intr_num, intr_name[regs->intr_num]);
-		while(1);
+		printk_color(COL_BLACK, COL_RED, "Unhandled interrupt: %d %s\n", regs->intr_num, intr_name[regs->intr_num]);
+		//while(1);
 	}
 }
 
@@ -97,9 +97,9 @@ void irq_handler(regs_t *regs){
 }
 
 void c_isr_stub(regs_t *regs){
-	if(regs->intr_num < ISR_IRQ0 || regs->intr_num == ISR_UNKNOWN){
+	if(regs->intr_num < IRQ0 || regs->intr_num == ISR_UNKNOWN){
 		isr_handler(regs);
-	}else if(regs->intr_num < 16 + ISR_IRQ0){
+	}else if(regs->intr_num < 16 + IRQ0){
 		irq_handler(regs);
 	}
 }

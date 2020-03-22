@@ -4,8 +4,10 @@ C_SRC = $(shell find . -name "*.c")
 C_SRC := $(filter-out kernel/debug.c, $(C_SRC))
 C_OBJ = $(patsubst %.c, %.o, $(C_SRC))
 S_SRC = $(shell find . -name "*.asm")
-S_SRC := $(filter-out kernel/idt.asm, $(S_SRC))
-S_BIN = $(patsubst %.asm, %.bin, $(S_SRC))
+S_SRC := $(filter-out kernel/idt_s.asm, $(S_SRC))
+S_BIN = boot/mbr.bin\
+		boot/loader.bin
+#S_BIN = $(patsubst %.asm, %.bin, $(S_SRC))
 S_OBJ = kernel/idt_s.o
 
 CC = gcc
