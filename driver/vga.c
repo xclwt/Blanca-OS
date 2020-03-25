@@ -3,7 +3,7 @@
 /*光标*/
 position cursor;
 /*显存区域*/
-vga_char* vga_memory = (vga_char*) 0xb8000;
+vga_char* vga_memory = (vga_char*) 0xc000b8000;
 
 /*移动光标*/
 void move_cursor(){
