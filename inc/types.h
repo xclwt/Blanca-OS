@@ -18,4 +18,9 @@ typedef int8_t bool;
 typedef uint32_t size_t;
 typedef uint32_t uintptr_t;
 
+//原子类型
+typedef struct{
+	int counter;
+}atomic_t;
+
 #endif

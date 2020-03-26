@@ -1,5 +1,3 @@
-///references: jos/stab.h, Stab Symbol Types, see:
-//https://docs.freebsd.org/info/stabs/stabs.info.Stab_Symbol_Types.html
 #ifndef _INC_STAB_H
 #define _INC_STAB_H
 
