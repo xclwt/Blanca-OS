@@ -3,7 +3,7 @@
 
 #include <types.h>
 
-/*e820获得的地址范围描述符最大数量,其实已经知道是5个，
+/*e820获得的地址范围描述符最大数量,其实已经知道是6个，
 这里为了适应不同内存大小，暂且设20个*/
 #define MMAP_MAX 20
 
@@ -27,4 +27,20 @@ typedef struct{
 	ards_t ards[MMAP_MAX];
 }mmap_t;
 
+typedef struct{
+	char *name;
+	void (*init_pages)(page_t* pages, uint32_t n);
+	uint32_t (*alloc_pages)(uint32_t n);
+	void (*free_pages)(uint32_t addr,uint32_t n);
+}p_manager;
+
+void init_pmm();
+
+void init_pages_dir(mmap_t* mmap);
+
+void init_pages(page_t* pages, uint32_t n);
+
+uint32_t alloc_pages(uint32_t n);
+
+void free_pages(uint32_t addr,uint32_t n);
 #endif
