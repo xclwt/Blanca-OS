@@ -11,7 +11,9 @@ Blanca-OS is an unix-like toy os kernel
 * [wiki.osdev.org](https://wiki.osdev.org/)
 * [x86架构操作系统内核的实现](http://wiki.0xffffff.org/)
 * [linux0.11](https://github.com/loveveryday/linux0.11)
+* [linux2.6.11](https://github.com/jasonactions/linux2.6.11_comment)
 * [《x86汇编语言：从实模式到保护模式》](https://book.douban.com/subject/20492528/)
+* [《Understanding the Linux Virtual Memory Manager》](https://book.douban.com/subject/1610233/)
 * [《操作系统真象还原》](https://book.douban.com/subject/26745156/)
 
 

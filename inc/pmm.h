@@ -1,3 +1,29 @@
+/*
+----------------------
+|                    |
+|	ZONE_HIGHMEM     |
+|                    |
+----------------------  <--3GB+896MB
+|	                 |
+|	内核可用物理页   |
+|                    |
+----------------------  <--pmm_addr_start
+|                    |
+|	物理页数组       |
+|                    |
+----------------------  <--p_pages
+|	                 |
+|	内核镜像         |
+|                    |
+----------------------  <--3GB+1MB
+|                    |
+----------------------  <--3GB
+|                    |
+|	用户空间         | 
+|                    |
+----------------------
+*/
+
 #ifndef _INC_PMM_H
 #define _INC_PMM_H
 
@@ -7,13 +33,21 @@
 这里为了适应不同内存大小，暂且设20个*/
 #define MMAP_MAX 20
 
-#define ALIGN 0xfffff000
-#define PAGE_SIZE 0x1000
+#define PAGE_SHIFT 12
 
+//页对齐地址
+#define PAGE_ALIGN 0xfffff000
+
+//物理页框大小（4KB）
+#define PAGE_SIZE 0x1000
 
 #define ZONE_NORMAL_ADDR 0x1000000    // 16MB
 #define ZONE_HIGHMEM_ADDR 0x38000000  // 896MB
 
+/*内核镜像末尾*/
+extern uint8_t KERNEL_END; 
+
+/*地址范围描述符*/
 typedef struct{
 	uint32_t base_addr_l;
 	uint32_t base_addr_h;
@@ -27,11 +61,21 @@ typedef struct{
 	ards_t ards[MMAP_MAX];
 }mmap_t;
 
+/*物理页结构体*/
+typedef struct{
+	list_head list;
+	atomic count;
+	uint32_t flag;
+	uint32_t order;
+}page_t;
+
+/*内存管理器，可更换算法*/
 typedef struct{
 	char *name;
 	void (*init_pages)(page_t* pages, uint32_t n);
 	uint32_t (*alloc_pages)(uint32_t n);
 	void (*free_pages)(uint32_t addr,uint32_t n);
+	uint32_t (*free_pages_count)(void);
 }p_manager;
 
 void init_pmm();
