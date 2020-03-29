@@ -54,8 +54,8 @@ void init_pages_dir(mmap_t* mmap){
 		pmm_addr_end = addr_end;
 	}
 
-	assert(pmm_addr_start == page2vaddr(&p_pages[0]), "");
-	assert(pmm_addr_end == page2vaddr(&p_pages[p_pages_count - 1]), "");
+	assert(pmm_addr_start == page2vaddr(&p_pages[0]), "error,pmm_addr_start != page2vaddr(&p_pages[0]");
+	assert(pmm_addr_end == page2vaddr(&p_pages[p_pages_count - 1]), "error,pmm_addr_end == page2vaddr(&p_pages[p_pages_count - 1]");
 
 	return;
 }

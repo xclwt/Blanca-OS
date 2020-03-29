@@ -78,13 +78,21 @@ typedef struct{
 	uint32_t (*free_pages_count)(void);
 }p_manager;
 
+/*初始化物理内存管理器*/
 void init_pmm();
 
+/*初始化物理页结构体*/
 void init_pages_dir(mmap_t* mmap);
 
+/*初始化物理页*/
 void init_pages(page_t* pages, uint32_t n);
 
+/*分配物理页*/
 uint32_t alloc_pages(uint32_t n);
 
+/*释放物理页*/
 void free_pages(uint32_t addr,uint32_t n);
+
+/*空闲页数量*/
+uint32_t free_pages_count(void);
 #endif

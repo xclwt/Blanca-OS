@@ -3,6 +3,7 @@
 
 #include <types.h>
 
+/*中断描述符结构体*/
 typedef struct{
     uint16_t l_base;
     uint16_t selector;
@@ -11,11 +12,13 @@ typedef struct{
     uint16_t h_base;
 }__attribute__((packed)) idt_entry_t;
 
+/*中断描述符信息在内存中的指针结构体*/
 typedef struct{
     uint16_t limit;
     uint32_t base;
 }__attribute__((packed)) idt_ptr_t;
 
+/*中断发生时保存的寄存器信息结构体*/
 typedef struct{
 	/*段寄存器,16bit*/
 	uint32_t fs;

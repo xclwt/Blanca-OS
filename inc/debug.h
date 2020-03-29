@@ -12,14 +12,14 @@
 		}                                                 \
 
 typedef struct{
-    const char *eip_file;		// Source code filename for EIP
-	int eip_line;			// Source code linenumber for EIP
+    const char *eip_file;		// eip指向的源代码文件
+	int eip_line;			    // eip指向的源代码行号
 
-	const char *eip_func_name;	// Name of function containing EIP
+	const char *eip_func_name;	// 包含eip的函数
 
-	int eip_func_namelen;		// Length of function name
-	uintptr_t eip_func_addr;		// Address of start of function
-	int eip_func_narg;		// Number of function arguments
+	int eip_func_namelen;		// 函数名长度
+	uintptr_t eip_func_addr;	// 函数起始地址
+	int eip_func_narg;		    // 函数参数数量
 }debug_info;
 
 

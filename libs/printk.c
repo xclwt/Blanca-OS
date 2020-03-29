@@ -4,7 +4,6 @@
 
 #define is_digit(ch) (ch >= '0' && ch <= '9')
 
-/*字符串转换为数字*/
 int atoi(const char *s){
     int i = 0;
     
@@ -15,7 +14,6 @@ int atoi(const char *s){
     return i;
 }
 
-/*将十进制有符号数转换为不同进制字符串*/
 char* itoa(int value, char *str, int radix){
     char reverse[32];
     char *p = reverse, *q = str;
@@ -39,7 +37,6 @@ char* itoa(int value, char *str, int radix){
     return str;
 }
 
-/*将十进制无符号数转换为不同进制字符串*/
 char* uitoa(uint32_t value, char *str, int radix){
     char reverse[32];
     char *p = reverse, *q = str;
