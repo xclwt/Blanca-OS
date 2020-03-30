@@ -1,5 +1,7 @@
 #include <pmm.h>
 #include <string.h>
+#include <buddy.h>
+
 p_manager* manager = &buddy_manager;
 
 page_t* p_pages = (page_t*)(uint32_t)KERNEL_END + KERNEL_BASE;
@@ -64,10 +66,24 @@ void init_pages(page_t *pages, uint32_t n){
 	manager->init_pages(pages, n);
 }
 
-uint32_t alloc_pages(uint32_t){
+uint32_t alloc_pages(uint32_t n){
+	uint32_t page, flag;
 
+	temp_disable_intr(flag);	//temp lock implement
+	manager->alloc_pages(n);
+	enable_intr(flag);
+
+	return page;
 }
 
 void free_pages(uint32_t addr, uint32_t n){
+	uint32_t flag;
 
+	temp_disable_intr(flag);   //temp lock implement;
+	return manager->free_pages(addr, n);
+	enable_intr(flag);
+}
+
+uint32_t free_pages_count(void){
+	return manager->free_pages_count();
 }

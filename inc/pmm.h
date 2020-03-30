@@ -95,4 +95,5 @@ void free_pages(uint32_t addr,uint32_t n);
 
 /*空闲页数量*/
 uint32_t free_pages_count(void);
+
 #endif
