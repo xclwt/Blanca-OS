@@ -2,15 +2,15 @@
 #include <string.h>
 #include <buddy.h>
 
-p_manager* manager = &buddy_manager;
+static p_manager* manager = &buddy_manager;
 
-page_t* p_pages = (page_t*)(uint32_t)KERNEL_END + KERNEL_BASE;
+static page_t* p_pages = (page_t*)(uint32_t)KERNEL_END + KERNEL_BASE;
 
 static uint32_t p_pages_count;
 
-uint32_t pmm_addr_start;
+static uint32_t pmm_addr_start;
 
-uint32_t pmm_addr_end;
+static uint32_t pmm_addr_end;
 
 #define vaddr2page(vaddr) (p_pages + (vaddr - pmm_addr_start) >> PAGE_SHIFT)
 #define page2vaddr(page) (pmm_addr_start + (uint32_t)(page - p_pages) * PAGE_SIZE)

@@ -23,4 +23,6 @@ p_manager buddy_manager = {
 	&buddy_free_pages_count
 };
 
+
+
 #endif
