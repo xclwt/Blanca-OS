@@ -12,8 +12,8 @@ static uint32_t pmm_addr_start;
 
 static uint32_t pmm_addr_end;
 
-#define vaddr2page(vaddr) (p_pages + (vaddr - pmm_addr_start) >> PAGE_SHIFT)
-#define page2vaddr(page) (pmm_addr_start + (uint32_t)(page - p_pages) * PAGE_SIZE)
+#define addr2page(addr) (p_pages + (addr - pmm_addr_start) >> PAGE_SHIFT)
+#define page2addr(page) (pmm_addr_start + (uint32_t)(page - p_pages) * PAGE_SIZE)
 #define PFN_UP(x) ((x + PAGE_SIZE - 1) >> PAGE_SHIFT)
 #define PFN_DOWN(x) (x >> PAGE_SHIFT)
 
@@ -56,8 +56,8 @@ void init_pages_dir(mmap_t* mmap){
 		pmm_addr_end = addr_end;
 	}
 
-	assert(pmm_addr_start == page2vaddr(&p_pages[0]), "error,pmm_addr_start != page2vaddr(&p_pages[0]");
-	assert(pmm_addr_end == page2vaddr(&p_pages[p_pages_count - 1]), "error,pmm_addr_end == page2vaddr(&p_pages[p_pages_count - 1]");
+	assert(pmm_addr_start == page2addr(&p_pages[0]), "error,pmm_addr_start != page2vaddr(&p_pages[0]");
+	assert(pmm_addr_end == page2addr(&p_pages[p_pages_count - 1]), "error,pmm_addr_end == page2vaddr(&p_pages[p_pages_count - 1]");
 
 	return;
 }

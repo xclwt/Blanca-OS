@@ -2,6 +2,8 @@
 #define _INC_BUDDY_H
 
 #include <pmm.h>
+#include <atomic.h>
+#include <list.h>
 
 /*初始化物理页*/
 void buddy_init_pages(page_t* pages, uint32_t n);

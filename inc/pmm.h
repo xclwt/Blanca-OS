@@ -63,9 +63,8 @@ typedef struct{
 
 /*物理页结构体*/
 typedef struct{
-	list_head list;
+	list_node list;
 	atomic count;
-	uint32_t flag;
 	uint32_t order;
 }page_t;
 
