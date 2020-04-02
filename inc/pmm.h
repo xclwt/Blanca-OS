@@ -66,6 +66,7 @@ typedef struct{
 	list_node list;
 	atomic count;
 	uint32_t order;
+	uint32_t flag;
 }page_t;
 
 /*内存管理器，可更换算法*/

@@ -69,8 +69,8 @@ uint32_t get_order(unt32_t n){
 
 /*分配物理页子功能*/
 page_t* buddy_alloc_pages_sub(uint32_t order){
-	assert(order <= MAX_ORDER, "buddy memory allocator can not allocate over 1024 pages!!!");
-	
+	assert(order <= MAX_ORDER, "buddy memory manager can't allocate over 1024 pages!!!");
+
 	for(uint32_t cur = order; order <= MAX_ORDER; ++cur){
 		if(free_num[cur] != 0){
 			list_node *list = free_list[cur].next;
@@ -104,7 +104,7 @@ uint32_t buddy_alloc_pages(uint32_t n){
 	uint32_t order = get_order(n);
 	uint32_t size = 1 << order;
 	page_t* page = buddy_alloc_pages_sub(order);
-	
+
 	if(!page){
 		return 0;
 	}
@@ -118,9 +118,38 @@ uint32_t buddy_alloc_pages(uint32_t n){
 	return page2addr(page);
 }
 
+/*检测buddy page*/
+bool is_buddy(){
+
+}
+
+
+/*释放物理页子功*/
+page_t* buddy_free_pages_sub(page_t* page, uint32_t order){
+	assert(order <= MAX_ORDER, "buddy memory manager can't free over 1024 pages!!!");
+}
+
 /*释放物理页*/
 void buddy_free_pages(uint32_t addr,uint32_t n){
+	if(n <= 0 || n > (uint32_t)(atomic_read(phy_pages_count) - atomic_read(phy_pages_left)) || n > MAX_ORDER){
+		return;
+	}
 
+	uint32_t order = 0;
+	uint32_t size = 1;
+	page_t* page = addr2page(addr);
+
+	atomic_add(phy_pages_left, n);
+
+	while(size < n){
+		if((n & size) != 0){
+			buddy_free_pages_sub(page, order);
+			page += size;
+			n -= size;
+		}
+		++order;
+		size <<= 1;
+	}
 }
 
 /*空闲页数量*/
