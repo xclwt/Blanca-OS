@@ -4,8 +4,8 @@
 /*linux中连这个宏都优化到了机制，我这就不效仿了*/
 #define LOCK_PREFIX "lock;"
 
-inline int32_t atomic_read(atomic_t* n){
-	return n->counter;
+inline int32_t atomic_read(atomic_t n){
+	return n.counter;
 }
 
 inline void atomic_set(atomic_t* n, int32_t i){

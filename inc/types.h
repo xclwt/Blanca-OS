@@ -20,7 +20,7 @@ typedef uint32_t uintptr_t;
 
 //原子类型
 typedef struct{
-	int counter;
+	int32_t counter;
 }atomic_t;
 
 #endif
