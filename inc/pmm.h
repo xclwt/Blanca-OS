@@ -28,6 +28,7 @@
 #define _INC_PMM_H
 
 #include <types.h>
+#include <list.h>
 
 /*e820获得的地址范围描述符最大数量,其实已经知道是6个，
 这里为了适应不同内存大小，暂且设20个*/
@@ -64,7 +65,7 @@ typedef struct{
 /*物理页结构体*/
 typedef struct{
 	list_node list;
-	atomic count;
+	atomic_t count;
 	uint32_t order;
 	uint32_t flag;
 }page_t;
@@ -77,6 +78,10 @@ typedef struct{
 	void (*free_pages)(uint32_t addr,uint32_t n);
 	uint32_t (*free_pages_count)(void);
 }p_manager;
+
+page_t* addr2page(uint32_t addr);
+
+uint32_t page2addr(page_t* page);
 
 /*初始化物理内存管理器*/
 void init_pmm();

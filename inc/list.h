@@ -3,9 +3,11 @@
 
 #include <types.h>
 
-typedef struct{
-	list_node *prev, *next;
-}list_node;
+struct list_node{
+	struct list_node *prev, *next;
+};
+
+typedef struct list_node list_node;
 
 void init_list_head(list_node* head){
 	head->prev = head;

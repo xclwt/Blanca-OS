@@ -12,10 +12,16 @@ static uint32_t pmm_addr_start;
 
 static uint32_t pmm_addr_end;
 
-#define addr2page(addr) (p_pages + (addr - pmm_addr_start) >> PAGE_SHIFT)
-#define page2addr(page) (pmm_addr_start + (uint32_t)(page - p_pages) * PAGE_SIZE)
 #define PFN_UP(x) ((x + PAGE_SIZE - 1) >> PAGE_SHIFT)
 #define PFN_DOWN(x) (x >> PAGE_SHIFT)
+
+page_t* addr2page(uint32_t addr){ 
+	return (p_pages + (addr - pmm_addr_start) >> PAGE_SHIFT);
+}
+
+uint32_t page2addr(page_t* page){
+	return (pmm_addr_start + (uint32_t)(page - p_pages) * PAGE_SIZE);
+}
 
 void init_pmm(){
 	mmap_t* mmap = (mmap_t*)0x500;
