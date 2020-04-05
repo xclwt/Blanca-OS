@@ -121,14 +121,40 @@ uint32_t buddy_alloc_pages(uint32_t n){
 }
 
 /*检测buddy page*/
-bool is_buddy(){
-	return TRUE;
+bool is_buddy(page_t* page, uint32_t order){
+	if(page - pages_start < (uint32_t)atomic_read(phy_pages_count)){
+		return is_page_free(page) & (page->order == order);
+	}else{
+		return FALSE;
+	}
 }
 
 
 /*释放物理页子功*/
 page_t* buddy_free_pages_sub(page_t* page, uint32_t order){
 	assert(order <= MAX_ORDER, "buddy memory manager can't free over 1024 pages!!!");
+	uint32_t buddy_index, page_index = page - pages_start;
+
+	while(order < MAX_ORDER){
+		buddy_index = page_index ^ (1 << order);
+		page_t* buddy = pages_start + buddy_index;
+		
+		if(!is_buddy(buddy, order)){
+			break;
+		}
+
+		atomic_dec(&free_num[order]);
+		list_del(&(buddy->list));
+		set_page_free(buddy);
+		page_index = page_index & buddy_index;  // page_index = page_index > buddy_index ? buddy_index : page_index;
+		++order;
+	}
+
+	page = pages_start + page_index;
+	page->order = order;
+	atomic_inc(&free_num[order]);
+	list_insert_after(&(page->list), &free_list[order]);
+
 	return 0;
 }
 

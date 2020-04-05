@@ -45,6 +45,13 @@
 #define ZONE_NORMAL_ADDR 0x1000000    // 16MB
 #define ZONE_HIGHMEM_ADDR 0x38000000  // 896MB
 
+#define PAGE_FREE 0
+#define PAGE_USED 1
+
+#define set_page_free(page) page->flag = PAGE_FREE
+#define set_page_used(page) page->flag = PAGE_USED
+#define is_page_free(page) page->flag == PAGE_FREE ? TRUE : FALSE
+
 /*内核镜像末尾*/
 extern uint8_t KERNEL_END; 
 
