@@ -18,6 +18,10 @@ void sti();
 /*暂停*/
 void hlt();
 
+/*切换页目录*/
+void switch_pgd(uint32_t addr);
 
+/*刷新页缓存*/
+void refresh_page(uint32_t addr);
 
 #endif
