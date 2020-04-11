@@ -12,6 +12,8 @@
 #define pde_index(vaddr) (vaddr >> 22)
 #define pte_index(vaddr) (vaddr >> 12)
 
+#define paddr2kaddr(paddr) ((uint32_t)paddr + KERNEL_BASE)
+
 #define PHY_MEM_LENGTH 0x38000000
 #define PAGE_DIR_SIZE 0x400000
 #define PDE_COUNT (PHY_MEM_LENGTH / PAGE_DIR_SIZE) 
