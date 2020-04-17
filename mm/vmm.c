@@ -36,7 +36,7 @@ void map(pde_t* cur_pgd, uint32_t vaddr, uint32_t paddr, uint32_t flag){
 			return;
 		} 
 	}
-
+	//pte = (pte_t*)(paddr2kaddr(pte));
 	pte[pte_index] = (paddr & PAGE_ALIGN) | flags;
 	
 	refresh_page(vaddr);
@@ -52,7 +52,7 @@ void unmap(pde_t* cur_pgd, uint32_t vaddr){
 		return;
 	}
 	
-	pte = (pte_t*)(paddr2kaddr(pte));
+	//pte = (pte_t*)(paddr2kaddr(pte));
 	pte[pte_index] = 0;
 
 	refresh_page(vaddr);
