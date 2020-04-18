@@ -4,6 +4,7 @@
 #define TRUE    1
 #define FALSE   0
 #define ERROR  -1
+#define NULL (void*)0
 
 typedef char int8_t;
 typedef short int16_t;

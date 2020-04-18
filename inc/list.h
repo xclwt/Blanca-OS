@@ -16,7 +16,8 @@ void init_list_head(list_node* head){
 }
 
 void list_insert_before(list_node* new, list_node* cur){
-	bool flag = temp_disable_intr();
+	bool flag;
+	temp_disable_intr(flag);
 	new->prev = cur->prev;
 	(cur->prev)->next = new;
 	new->next = cur;
@@ -25,7 +26,8 @@ void list_insert_before(list_node* new, list_node* cur){
 }
 
 void list_insert_after(list_node* new, list_node* cur){
-	bool flag = temp_disable_intr();
+	bool flag;
+	temp_disable_intr(flag);
 	new->next = cur->next;
 	(cur->next)->prev = new;
 	new->prev = cur;
@@ -34,7 +36,8 @@ void list_insert_after(list_node* new, list_node* cur){
 }
 
 void list_del(list_node* cur){
-	bool flag = temp_disable_intr();
+	bool flag;
+	temp_disable_intr(flag);
 	(cur->prev)->next = cur->next;
 	(cur->next)->prev = cur->prev;
 	enable_intr(flag);
@@ -92,7 +95,7 @@ uint32_t list2d_len(list2d* list){
 	list_node* cur = list->head.next;
 	uint32_t length = 0;
 	
-	while(cur != list->tail){
+	while(cur != &list->tail){
 		++length;
 		cur = cur->next;
 	}
