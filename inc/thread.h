@@ -6,6 +6,8 @@
 #include <string.h>
 #include <vmm.h>
 
+typedef void thread_func(void*);
+
 #define TASK_RUNNING 0
 #define TASK_READY   1
 #define TASK_BLOCKED 2
@@ -14,16 +16,18 @@
 #define TASK_DIED    5
 
 typedef struct{
-	uint32_t esp;
 	uint32_t ebp;
 	uint32_t ebx;
 	uint32_t edi;
 	uint32_t esi;
-	uint32_t eip;
+	void (*eip)(thread_func* func, void* func_arg);
+	uint32_t retaddr;
+	thread_func* function;
+	void* func_arg;
 }context;
 
 typedef struct{
-	uint32_t* context;
+	uint8_t* context;
 	uint8_t status;
 	uint8_t priority;
 	char name[16];
