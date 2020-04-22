@@ -5,6 +5,7 @@
 #include <idt.h>
 #include <string.h>
 #include <vmm.h>
+#include <pmm.h>
 
 typedef void thread_func(void*);
 
@@ -30,8 +31,20 @@ typedef struct{
 	uint8_t* context;
 	uint8_t status;
 	uint8_t priority;
+	uint32_t run_time;
+	list_node ready_list_node;
+	list_node all_list_node;
 	char name[16];
+	uint32_t* pgdir;
 	uint32_t stack_boundary;
 }task_struct;
+
+void kernel_thread(thread_func* func, void* func_arg);
+
+void init_thread(task_struct* thread, char* name, uint8_t priority);
+
+void create_thread(task_struct* thread, thread_func* func, void* func_arg);
+
+task_struct* cur_thread();
 
 #endif

@@ -4,6 +4,8 @@
 #include <idt.h>
 #include <printk.h>
 #include <asm.h>
+#include <debug.h>
+#include <thread.h>
 
 #define FREQUENCY 100
 #define COUNTER_PORT 0x40

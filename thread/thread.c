@@ -1,5 +1,11 @@
 #include <thread.h>
 
+task_struct* kernel_thread;
+list2d ready_list;
+list2d all_list;
+
+extern void switch_to(task_struct* cur, task_struct* new);
+
 void kernel_thread(thread_func* func, void* func_arg){
 	func(func_arg);
 }
@@ -23,4 +29,8 @@ void create_thread(task_struct* thread, thread_func* func, void* func_arg){
 	kthread_stack->eip = kernel_thread;
 	kthread_stack->func = func;
 	kthread_stack->func_arg = func_arg;
+}
+
+task_struct* cur_thread(){
+	return;
 }
