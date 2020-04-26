@@ -1,6 +1,6 @@
 #include <thread.h>
 
-task_struct* kernel_thread;
+task_struct* idle_thread;
 list2d ready_list;
 list2d all_list;
 
@@ -32,5 +32,5 @@ void create_thread(task_struct* thread, thread_func* func, void* func_arg){
 }
 
 task_struct* cur_thread(){
-	return;
+	return NULL;
 }

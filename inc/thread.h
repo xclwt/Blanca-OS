@@ -23,12 +23,12 @@ typedef struct{
 	uint32_t esi;
 	void (*eip)(thread_func* func, void* func_arg);
 	uint32_t retaddr;
-	thread_func* function;
+	thread_func* func;
 	void* func_arg;
 }context;
 
 typedef struct{
-	uint8_t* context;
+	uint32_t* context;
 	uint8_t status;
 	uint8_t priority;
 	uint32_t run_time;
