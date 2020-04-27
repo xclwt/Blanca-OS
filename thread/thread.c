@@ -1,5 +1,6 @@
 #include <thread.h>
 
+task_struct* main_thread;
 task_struct* idle_thread;
 list2d ready_list;
 list2d all_list;
@@ -15,7 +16,8 @@ void init_thread(task_struct* thread, char* name, uint8_t priority){
 	strcpy(thread->name, name);
 	thread->status = TASK_RUNNING;
 	thread->priority = priority;
-	thread->context = (uint32_t*)((uint32_t)thread + PAGE_SIZE);
+	thread->context = (uint8_t*)((uint32_t)thread + PAGE_SIZE);
+	thread->stack_boundary = 0x20000521;
 }
 
 void create_thread(task_struct* thread, thread_func* func, void* func_arg){
@@ -32,5 +34,8 @@ void create_thread(task_struct* thread, thread_func* func, void* func_arg){
 }
 
 task_struct* cur_thread(){
-	return NULL;
+	uint32_t esp;
+	asm volatile ("mov %%esp, %0":"=r"(esp));
+	esp &= 0xfffff000;
+	return (task_struct*)esp;
 }
