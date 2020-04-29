@@ -6,8 +6,11 @@
 #include <string.h>
 #include <vmm.h>
 #include <pmm.h>
+#include <debug.h>
 
 typedef void thread_func(void*);
+
+#define STACK_SIZE 0x1000
 
 #define TASK_RUNNING 0
 #define TASK_READY   1
@@ -28,7 +31,7 @@ typedef struct{
 }context;
 
 typedef struct{
-	uint8_t* context;
+	uint8_t* kstack;
 	uint8_t status;
 	uint8_t priority;
 	uint32_t run_time;
@@ -39,12 +42,19 @@ typedef struct{
 	uint32_t stack_boundary;
 }task_struct;
 
+/*开启一个内核线程*/
 void kernel_thread(thread_func* func, void* func_arg);
 
+/*线程初始化*/
 void init_thread(task_struct* thread, char* name, uint8_t priority);
 
-void create_thread(task_struct* thread, thread_func* func, void* func_arg);
+/*初始化线程上下文，如果新线程是已经在运行中，则不需要初始化*/
+void init_kcontext(task_struct* thread, thread_func* func, void* func_arg);
 
+/*线程调度*/
+void schedule();
+
+/*返回当前线程*/
 task_struct* cur_thread();
 
 #endif
