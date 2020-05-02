@@ -58,3 +58,33 @@ task_struct* cur_thread(){
 	esp &= ~(STACK_SIZE - 1);
 	return (task_struct*)esp;
 }
+
+void block_thread(uint8_t status){
+	assert((status == TASK_BLOCKED || 
+			status == TASK_HANGING || 
+			status == TASK_WAITING), 
+			"BLOCK_THREAD: STATUS ERROR!!!");
+	
+	bool flag;
+	temp_disable_intr(flag);
+	
+	task_struct* thread = cur_thread();
+	thread->status = status;
+	schedule();
+
+	enable_intr(flag);
+}
+
+void unblock_thread(task_struct* thread){
+	bool flag;
+	temp_disable_intr(flag);
+
+	assert((thread->status == TASK_BLOCKED || 
+			thread->status == TASK_HANGING ||
+			thread->status == TASK_WAITING), 
+			"UNBLOCK_THREAD: STATUS ERROR");
+
+	list2d_push(&ready_list, &thread->ready_list_node);
+
+	enable_intr(flag);
+}
