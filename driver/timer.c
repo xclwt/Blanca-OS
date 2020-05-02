@@ -3,15 +3,15 @@
 uint32_t tick = 0;
 
 void timer_handler(regs_t *regs){
-	task_struct* cur_thread = cur_thread();
+	task_struct* thread = cur_thread();
 	
-	assert(cur_thread->stack_boundary == 0x20000521, "thread stack overflow ！！！");
+	assert(thread->stack_boundary == 0x20000521, "thread stack overflow ！！！");
 	++tick;
 
-	if(cur_thread->run_time == 0){
+	if(thread->run_time == 0){
 		schedule();
 	}else{
-		--cur_thread->run_time;
+		--thread->run_time;
 	}
 	
 	

@@ -16,7 +16,7 @@ static uint32_t pmm_addr_end;
 #define PFN_DOWN(x) (x >> PAGE_SHIFT)
 
 page_t* addr2page(uint32_t addr){ 
-	return (p_pages + (addr - pmm_addr_start) >> PAGE_SHIFT);
+	return (p_pages + ((addr - pmm_addr_start) >> PAGE_SHIFT));
 }
 
 uint32_t page2addr(page_t* page){
@@ -25,7 +25,7 @@ uint32_t page2addr(page_t* page){
 
 void init_pmm(){
 	mmap_t* mmap = (mmap_t*)0x500;
-	init_p_pages(mmap);	
+	init_pages_dir(mmap);	
 	init_pages(p_pages, p_pages_count);
 }
 
@@ -55,7 +55,7 @@ void init_pages_dir(mmap_t* mmap){
 			addr_end = ZONE_HIGHMEM_ADDR;
 		}
 
-		for(uint32_t i = PFN(addr_start); i < PFN_DOWN(addr_end); ++i){
+		for(uint32_t i = PFN_UP(addr_start); i < PFN_DOWN(addr_end); ++i){
 			++p_pages_count;
 		}
 

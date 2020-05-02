@@ -2,6 +2,7 @@
 #define _INC_IDT_H
 
 #include <types.h>
+#include <processor.h>
 
 /*中断描述符结构体*/
 typedef struct{
@@ -112,6 +113,14 @@ void c_isr_stub(regs_t *regs);
 
 /*注册中断处理函数*/
 void register_intr_handler(uint8_t intr_num, intr_handler_t handler);
+
+/*根据IF位决定是否要关中断*/
+bool _temp_disable_intr(void);
+
+/*根据flag决定是否开中断*/
+void enable_intr(bool flag);
+
+#define temp_disable_intr(x) x = _temp_disable_intr()
 
 /*定义IRQ*/
 #define  IRQ0     32 	// 电脑系统计时器

@@ -5,6 +5,7 @@
 #include <atomic.h>
 #include <list.h>
 #include <types.h>
+#include <debug.h>
 
 /*初始化物理页*/
 void buddy_init_pages(page_t* pages, uint32_t n);

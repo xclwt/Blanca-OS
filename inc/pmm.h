@@ -29,10 +29,13 @@
 
 #include <types.h>
 #include <list.h>
+#include <idt.h>
 
 /*e820获得的地址范围描述符最大数量,其实已经知道是6个，
 这里为了适应不同内存大小，暂且设20个*/
 #define MMAP_MAX 20
+
+#define KERNEL_BASE 0xc0000000
 
 #define PAGE_SHIFT 12
 
@@ -53,8 +56,8 @@
 #define is_page_free(page) page->flag == PAGE_FREE ? TRUE : FALSE
 
 /*内核镜像末尾*/
-extern uint8_t KERNEL_END; 
-
+//extern uint8_t KERNEL_END; 
+#define KERNEL_END 0xc0050000
 /*地址范围描述符*/
 typedef struct{
 	uint32_t base_addr_l;

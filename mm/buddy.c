@@ -1,6 +1,4 @@
 #include <buddy.h>
-#include <pmm.h>
-#include <debug.h>
 
 #define MAX_ORDER 10
 

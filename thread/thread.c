@@ -44,7 +44,7 @@ task_struct* start_thread(char* name, uint8_t priority, thread_func* func, void*
 
 void create_main_thread(){
 	main_thread = cur_thread();
-	init_thread(main_thread, "main", );
+	init_thread(main_thread, "main", 31);
 	list2d_append(&all_list, &(main_thread->all_list_node));
 }
 

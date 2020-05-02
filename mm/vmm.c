@@ -37,7 +37,7 @@ void map(pde_t* cur_pgd, uint32_t vaddr, uint32_t paddr, uint32_t flag){
 		} 
 	}
 	//pte = (pte_t*)(paddr2kaddr(pte));
-	pte[pte_index] = (paddr & PAGE_ALIGN) | flags;
+	pte[pte_index] = (paddr & PAGE_ALIGN) | flag;
 	
 	refresh_page(vaddr);
 }

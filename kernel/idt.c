@@ -107,3 +107,18 @@ void c_isr_stub(regs_t *regs){
 void register_intr_handler(uint8_t intr_num, intr_handler_t handler){
 	intr_handler[intr_num] = handler;
 }
+
+bool _temp_disable_intr(void){
+	if(read_eflags() & X86_EFLAGS_IF){
+		cli();
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+void enable_intr(bool flag){
+	if(flag){
+		sti();
+	}
+}

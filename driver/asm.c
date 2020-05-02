@@ -25,9 +25,9 @@ inline void hlt(){
 }
 
 inline void switch_pgd(uint32_t addr){
-	asm volatile ("mov %0 %%cr3"::"a"(addr));
+	asm volatile ("mov %0, %%cr3"::"r"(addr));
 }
 
 inline void refresh_page(uint32_t addr){
-	asm volatile("invlpg %0"::"a"(addr));
+	asm volatile("invlpg (%0)"::"a"(addr));
 }

@@ -2,7 +2,7 @@
 #define _INC_LIST_H
 
 #include <types.h>
-#include <sync.h>
+#include <idt.h>
 
 struct list_node{
 	struct list_node *prev, *next;
@@ -48,7 +48,7 @@ bool list_empty(list_node* head){
 }
 
 /*双向链表结构*/
-typedef struct list{
+typedef struct{
 	list_node head;
 	list_node tail;
 }list2d;
