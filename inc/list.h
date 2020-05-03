@@ -10,42 +10,15 @@ struct list_node{
 
 typedef struct list_node list_node;
 
-void init_list_head(list_node* head){
-	head->prev = head;
-	head->next = head;
-}
+void init_list_head(list_node* head);
 
-void list_insert_before(list_node* new, list_node* cur){
-	bool flag;
-	temp_disable_intr(flag);
-	new->prev = cur->prev;
-	(cur->prev)->next = new;
-	new->next = cur;
-	cur->prev = new;
-	enable_intr(flag);
-}
+void list_insert_before(list_node* new, list_node* cur);
 
-void list_insert_after(list_node* new, list_node* cur){
-	bool flag;
-	temp_disable_intr(flag);
-	new->next = cur->next;
-	(cur->next)->prev = new;
-	new->prev = cur;
-	cur->next = new;
-	enable_intr(flag);
-}
+void list_insert_after(list_node* new, list_node* cur);
 
-void list_del(list_node* cur){
-	bool flag;
-	temp_disable_intr(flag);
-	(cur->prev)->next = cur->next;
-	(cur->next)->prev = cur->prev;
-	enable_intr(flag);
-}
+void list_del(list_node* cur);
 
-bool list_empty(list_node* head){
-	return head->next == head;
-}
+bool list_empty(list_node* head);
 
 /*双向链表结构*/
 typedef struct{
@@ -53,55 +26,20 @@ typedef struct{
 	list_node tail;
 }list2d;
 
-void init_list2d(list2d* list){
-	list->head.prev = NULL;
-	list->head.next = &(list->tail);
-	list->tail.prev = &(list->head);
-	list->tail.next = NULL;
-}
+void init_list2d(list2d* list);
 
 /*添加元素到链表首*/
-void list2d_push(list2d* list, list_node* new){
-	list_insert_before(new, list->head.next);
-}
+void list2d_push(list2d* list, list_node* new);
 
 /*添加元素到链表尾*/
-void list2d_append(list2d* list, list_node* new){
-	list_insert_after(new, list->tail.prev);
-}
+void list2d_append(list2d* list, list_node* new);
 
 /*弹出链表的第一个元素*/
-list_node* list2d_pop(list2d* list){
-	list_node* result = list->head.next;
-	list_del(result);
-	return result;
-}
+list_node* list2d_pop(list2d* list);
 
-bool find_elem(list2d* list, list_node* obj){
-	list_node* cur = list->head.next;
-	
-	while(cur != &(list->tail)){
-		if(cur == obj){
-			return TRUE;
-		}
+bool find_elem(list2d* list, list_node* obj);
 
-		cur = cur->next;
-	}
-
-	return FALSE;
-}
-
-uint32_t list2d_len(list2d* list){
-	list_node* cur = list->head.next;
-	uint32_t length = 0;
-	
-	while(cur != &list->tail){
-		++length;
-		cur = cur->next;
-	}
-
-	return length;
-}
+uint32_t list2d_len(list2d* list);
 
 #endif
 

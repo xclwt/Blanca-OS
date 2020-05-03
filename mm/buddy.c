@@ -25,6 +25,14 @@ static uint32_t pmm_addr_end;
 /*物理页管理结构起始地址*/
 static page_t* pages_start;
 
+p_manager buddy_manager = {
+	"Buddy Memory Manager",
+	&buddy_init_pages,
+	&buddy_alloc_pages,
+	&buddy_free_pages,
+	&buddy_free_pages_count
+};
+
 /*初始化物理页*/
 void buddy_init_pages(page_t* pages, uint32_t n){
 	uint32_t order = MAX_ORDER;

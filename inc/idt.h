@@ -3,6 +3,9 @@
 
 #include <types.h>
 #include <processor.h>
+#include <pic.h>
+#include <printk.h>
+#include <asm.h>
 
 /*中断描述符结构体*/
 typedef struct{

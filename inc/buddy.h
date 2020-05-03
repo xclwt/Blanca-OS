@@ -19,12 +19,6 @@ void buddy_free_pages(uint32_t addr,uint32_t n);
 /*空闲页数量*/
 uint32_t buddy_free_pages_count(void);
 
-p_manager buddy_manager = {
-	"Buddy Memory Manager",
-	&buddy_init_pages,
-	&buddy_alloc_pages,
-	&buddy_free_pages,
-	&buddy_free_pages_count
-};
+extern p_manager buddy_manager;
 
 #endif

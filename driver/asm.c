@@ -24,6 +24,12 @@ inline void hlt(){
 	asm volatile ("hlt");
 }
 
+inline uint32_t read_eflags(){
+	uint32_t eflags;
+	asm volatile ("pushfl; popl %0":"=r"(eflags));
+	return eflags;
+}
+
 inline void switch_pgd(uint32_t addr){
 	asm volatile ("mov %0, %%cr3"::"r"(addr));
 }

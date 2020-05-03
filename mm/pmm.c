@@ -76,7 +76,7 @@ uint32_t alloc_pages(uint32_t n){
 	uint32_t page, flag;
 
 	temp_disable_intr(flag);	//temp lock implement
-	manager->alloc_pages(n);
+	page = manager->alloc_pages(n);
 	enable_intr(flag);
 
 	return page;
@@ -86,7 +86,7 @@ void free_pages(uint32_t addr, uint32_t n){
 	uint32_t flag;
 
 	temp_disable_intr(flag);   //temp lock implement;
-	return manager->free_pages(addr, n);
+	manager->free_pages(addr, n);
 	enable_intr(flag);
 }
 

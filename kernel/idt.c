@@ -1,6 +1,4 @@
 #include <idt.h>
-#include <pic.h>
-#include <printk.h>
 
 #define INTR_MAX 256
 

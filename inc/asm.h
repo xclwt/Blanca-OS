@@ -18,6 +18,9 @@ void sti();
 /*暂停*/
 void hlt();
 
+/*读取eflags*/
+uint32_t read_eflags();
+
 /*切换页目录*/
 void switch_pgd(uint32_t addr);
 
