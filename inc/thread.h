@@ -51,10 +51,19 @@ void init_thread(task_struct* thread, char* name, uint8_t priority);
 /*初始化线程上下文，如果新线程是已经在运行中，则不需要初始化*/
 void init_kcontext(task_struct* thread, thread_func* func, void* func_arg);
 
+/*为main函数创建线程*/
+void create_main_thread();
+
 /*线程调度*/
 void schedule();
 
 /*返回当前线程*/
 task_struct* cur_thread();
+
+/*阻塞线程*/
+void block_thread(uint8_t status);
+
+/*唤醒线程*/
+void unblock_thread(task_struct* thread);
 
 #endif

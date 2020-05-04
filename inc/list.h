@@ -41,5 +41,7 @@ bool find_elem(list2d* list, list_node* obj);
 
 uint32_t list2d_len(list2d* list);
 
+bool list2d_empty(list2d* list);
+
 #endif
 

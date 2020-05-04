@@ -86,3 +86,7 @@ uint32_t list2d_len(list2d* list){
 
 	return length;
 }
+
+bool list2d_empty(list2d* list){
+	return list->head.next == &(list->tail);
+}
