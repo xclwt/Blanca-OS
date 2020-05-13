@@ -1,4 +1,5 @@
 #include <idt.h>
+#include <gdt.h>
 
 #define INTR_MAX 256
 
@@ -50,10 +51,10 @@ void init_idt(void){
     idt_ptr.base = (uint32_t)idt_entries;
     
     for(int i = 0; i < 48; ++i){
-        set_intr_gate(i, (uint32_t)intr_func[i], 0x08, 0x8e);
+        set_intr_gate(i, (uint32_t)intr_func[i], SELE_K_CODE, 0x8e);
     }
     
-    set_intr_gate(255, (uint32_t)isr255, 0x08, 0x8e);
+    set_intr_gate(255, (uint32_t)isr255, SELE_K_CODE, 0x8e);
     
     load_idt((uint32_t) &idt_ptr);
 }
