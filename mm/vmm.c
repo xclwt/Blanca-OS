@@ -6,6 +6,10 @@ pde_t* pgd_start = (pde_t*)0xfffff000;
 //映射到0x101000
 pte_t* pte_start = (pte_t*)0xffc00000;
 
+uint32_t* pte_ptr(uint32_t vaddr){
+	uint32_t* pte_ptr = (0xffc00000 + ((vaddr & 0xffc00000) >> 10) + pte_index(vaddr) * 4);
+}
+
 void vmm_init(){
 	uint32_t pgd_index = pde_index(KERNEL_BASE);
 	
@@ -56,4 +60,17 @@ void unmap(pde_t* cur_pgd, uint32_t vaddr){
 	pte[pte_index] = 0;
 
 	refresh_page(vaddr);
+}
+
+uint32_t vaddr2paddr(uint32_t vaddr){
+	uint32_t* pte = pte_ptr(vaddr);
+	return ((*pte & 0xfffff000) + (vaddr & 0x00000fff));
+}
+
+void load_pgdir(task_struct* thread){
+	uint32_t pgdir_paddr = 0x100000;
+	if(thread->pgdir != NULL){
+		pgdir_paddr = vaddr2paddr((uint32_t)thread->pgdir);
+	}
+	switch_pgd(pgdir_paddr);
 }
