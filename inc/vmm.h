@@ -5,13 +5,12 @@
 #include <asm.h>
 #include <pmm.h>
 #include <string.h>
-#include <thread.h>
 
 #define KERNEL_BASE 0xc0000000  //内核基址
 #define KPAGE_SIZE 0x400000		//内核页表大小
 
 #define pde_index(vaddr) (vaddr >> 22)
-#define pte_index(vaddr) (vaddr >> 12)
+#define pte_index(vaddr) ((vaddr >> 12) & 0x3ff)
 
 #define paddr2kaddr(paddr) ((uint32_t)paddr + KERNEL_BASE)
 
@@ -28,5 +27,7 @@
 
 typedef uint32_t pde_t;
 typedef uint32_t pte_t;
+
+uint32_t vaddr2paddr(uint32_t vaddr);
 
 #endif

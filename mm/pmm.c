@@ -72,6 +72,7 @@ void init_pages(page_t *pages, uint32_t n){
 	manager->init_pages(pages, n);
 }
 
+/*目前分配出的地址都是0xc0100000往后的虚拟地址而非物理地址，等待后续调整*/
 uint32_t alloc_pages(uint32_t n){
 	uint32_t page, flag;
 
@@ -92,4 +93,22 @@ void free_pages(uint32_t addr, uint32_t n){
 
 uint32_t free_pages_count(void){
 	return manager->free_pages_count();
+}
+
+uint32_t alloc_pages_u(uint32_t n){
+	uint32_t page, flag;
+
+	temp_disable_intr(flag);	//temp lock implement
+	page = manager->alloc_pages(n);
+	enable_intr(flag);
+
+	return page;
+}
+
+void free_pages_u(uint32_t addr, uint32_t n){
+	uint32_t flag;
+
+	temp_disable_intr(flag);   //temp lock implement;
+	manager->free_pages(addr, n);
+	enable_intr(flag);
 }

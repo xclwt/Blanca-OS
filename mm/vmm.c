@@ -64,13 +64,6 @@ void unmap(pde_t* cur_pgd, uint32_t vaddr){
 
 uint32_t vaddr2paddr(uint32_t vaddr){
 	uint32_t* pte = pte_ptr(vaddr);
+	
 	return ((*pte & 0xfffff000) + (vaddr & 0x00000fff));
-}
-
-void load_pgdir(task_struct* thread){
-	uint32_t pgdir_paddr = 0x100000;
-	if(thread->pgdir != NULL){
-		pgdir_paddr = vaddr2paddr((uint32_t)thread->pgdir);
-	}
-	switch_pgd(pgdir_paddr);
 }

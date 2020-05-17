@@ -1,7 +1,6 @@
 #include <gdt.h>
 #include <tss.h>
 #include <printk.h>
-#include <thread.h>
 
 static tss_t tss;
 

@@ -1,6 +1,8 @@
 #ifndef _INC_TSS_H
 #define _INC_TSS_H
 
+#include <thread.h>
+
 typedef struct{
 	uint32_t link;
 	uint32_t esp0;
@@ -30,5 +32,7 @@ typedef struct{
 	uint16_t reserved;
 	uint16_t iomap_off;
 }__attribute__((packed)) tss_t;
+
+void set_tss_esp(task_struct* thread);
 
 #endif
