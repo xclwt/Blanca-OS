@@ -2,6 +2,7 @@
 #define _INC_PROCESSOR_H
 
 #define X86_EFLAGS_CF	 0x00000001 // Carry Flag
+#define X86_EFLAGS_MPS	 0x00000010 // MPS Flag, always 1
 #define X86_EFLAGS_PF	 0x00000004 // Parity Flag
 #define X86_EFLAGS_AF	 0x00000010 // Auxillary carry Flag
 #define X86_EFLAGS_ZF	 0x00000040 // Zero Flag

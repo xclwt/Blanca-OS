@@ -55,6 +55,9 @@ asm_isr_stub:
 
 	push esp
 	call c_isr_stub
+	
+[GLOBAL intr_exit]
+intr_exit:
 	add esp,4
 
 	pop fs

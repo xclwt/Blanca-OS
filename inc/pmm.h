@@ -111,8 +111,8 @@ void free_pages(uint32_t addr,uint32_t n);
 /*空闲页数量*/
 uint32_t free_pages_count(void);
 
-uint32_t alloc_pages(uint32_t n);
+uint32_t alloc_pages_u(uint32_t n);
 
-void free_pages(uint32_t addr,uint32_t n);
+void free_pages_u(uint32_t addr,uint32_t n);
 
 #endif
