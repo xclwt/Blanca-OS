@@ -62,7 +62,7 @@ void run_process(void* usr_proc){
 	regs->eax = 0;
 	regs->eip = (uint32_t) usr_proc;
 	regs->eflags = (X86_EFLAGS_IOPL0 | X86_EFLAGS_IF | X86_EFLAGS_MPS);
-	regs->u_esp = alloc_pages_u(1) + PAGE_SIZE;
+	regs->u_esp = alloc_pages_u(1) + PAGE_SIZE;		//留待完善！
 	regs->ss = SELE_U_STACK;
 	asm volatile ("movl %0,%%esp"::"r"(regs));
 	asm volatile ("jmp intr_exit");
