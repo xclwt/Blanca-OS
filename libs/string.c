@@ -73,8 +73,8 @@ char *strstr(const char *haystack, const char *needle){
 }
 
 void *	memmove(void *dst, const void *src, size_t len){
-    uint8_t *dp = (uint8_t)dst;
-    const uint8_t *sp = (const uint8_t)src;
+    uint8_t *dp = (uint8_t *)dst;
+    const uint8_t *sp = (const uint8_t *)src;
     
     if(sp < dp && sp + len > dp){
         sp += len;
@@ -92,7 +92,7 @@ void *	memmove(void *dst, const void *src, size_t len){
 }
 
 void *	memset(void *dst, uint8_t c, size_t len){
-    uint8_t *dp = (uint8_t)dst;
+    uint8_t *dp = (uint8_t *)dst;
     
     while(len-- > 0){
         *dp++ = c;
